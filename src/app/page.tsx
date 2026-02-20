@@ -2,7 +2,7 @@
 
 import { Suspense, useState, useCallback, useRef } from "react";
 import { useQueryState, parseAsInteger } from "nuqs";
-import { ResumeProvider, useResume } from "@/context/resume-context";
+import { ResumeProvider } from "@/context/resume-context";
 import { DraftsProvider, useDrafts } from "@/context/drafts-context";
 import { createBlankResume } from "@/lib/defaults";
 import { pickAndExtractPDF } from "@/lib/pdf-import";
@@ -24,7 +24,6 @@ export default function Home() {
 }
 
 function HomeContent() {
-  const { dispatch } = useResume();
   const { drafts, activeDraftId, createDraft, openDraft, deleteDraft, ready } =
     useDrafts();
   const [isParsing, setIsParsing] = useState(false);
