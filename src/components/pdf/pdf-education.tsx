@@ -20,7 +20,7 @@ export default function PdfEducation({ section }: Props) {
           <View style={styles.entryRow}>
             <Text style={styles.entryItalic}>{entry.degree}</Text>
             <Text style={styles.entryDate}>
-              {[entry.startDate, entry.endDate].filter(Boolean).join(" -- ")}
+              {[entry.startDate, entry.endDate].filter(Boolean).join(" \u2013 ")}
             </Text>
           </View>
           {entry.gpa ? <Text style={styles.entryDate}>GPA: {entry.gpa}</Text> : null}

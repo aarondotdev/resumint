@@ -19,7 +19,7 @@ export default function PdfExperience({ section }: Props) {
               {entry.company ? ` | ${entry.company}` : ""}
             </Text>
             <Text style={styles.entryDate}>
-              {[entry.startDate, entry.endDate].filter(Boolean).join(" -- ")}
+              {[entry.startDate, entry.endDate].filter(Boolean).join(" \u2013 ")}
             </Text>
           </View>
           {entry.url ? <Text style={styles.entryLink}>{entry.url}</Text> : null}

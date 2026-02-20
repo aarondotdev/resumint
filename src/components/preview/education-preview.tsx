@@ -21,7 +21,7 @@ export default function EducationPreview({ section }: Props) {
               {entry.gpa && `; GPA: ${entry.gpa}`}
             </span>
             <span className="text-xs font-bold text-teal-800">
-              {[entry.startDate, entry.endDate].filter(Boolean).join(" - ")}
+              {[entry.startDate, entry.endDate].filter(Boolean).join(" \u2013 ")}
             </span>
           </div>
         </div>

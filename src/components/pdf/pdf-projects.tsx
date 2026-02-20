@@ -22,7 +22,7 @@ export default function PdfProjects({ section }: Props) {
               <Text style={styles.entryBold}>{entry.name}</Text>
             )}
             <Text style={styles.entryDate}>
-              {[entry.startDate, entry.endDate].filter(Boolean).join(" -- ")}
+              {[entry.startDate, entry.endDate].filter(Boolean).join(" \u2013 ")}
             </Text>
           </View>
           {entry.bullets.filter(Boolean).map((b, i) => (

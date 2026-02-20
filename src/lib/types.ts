@@ -7,6 +7,7 @@ export interface HeaderSection {
   mobile: string;
   linkedin: string;
   github: string;
+  portfolio: string;
 }
 
 export interface EducationEntry {
@@ -99,4 +100,11 @@ export type SectionType = ResumeSection["type"];
 
 export interface Resume {
   sections: ResumeSection[];
+}
+
+export interface Draft {
+  id: string;
+  name: string;
+  resume: Resume;
+  updatedAt: number;
 }

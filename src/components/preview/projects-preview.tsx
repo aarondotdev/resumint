@@ -20,7 +20,7 @@ export default function ProjectsPreview({ section }: Props) {
               )}
             </span>
             <span className="text-xs font-bold text-teal-800">
-              {[entry.startDate, entry.endDate].filter(Boolean).join("- ")}
+              {[entry.startDate, entry.endDate].filter(Boolean).join(" \u2013 ")}
             </span>
           </div>
           {entry.bullets.some(Boolean) && (
