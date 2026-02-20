@@ -12,6 +12,7 @@ export default function PdfHeader({ section }: Props) {
   if (section.mobile) items.push(section.mobile);
   if (section.linkedin) items.push(section.linkedin);
   if (section.github) items.push(section.github);
+  if (section.portfolio) items.push(section.portfolio);
 
   return (
     <View style={styles.mb4}>

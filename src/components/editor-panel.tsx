@@ -35,7 +35,7 @@ function SortableSection({ section }: { section: ResumeSection }) {
   }
 
   return (
-    <div ref={setNodeRef} style={style} {...attributes}>
+    <div ref={setNodeRef} style={style} {...attributes} suppressHydrationWarning>
       <CollapsibleCard
         title={section.title}
         onTitleChange={handleTitleChange}

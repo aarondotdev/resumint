@@ -57,6 +57,15 @@ export default function HeaderEditor({ section, onChange }: Props) {
           placeholder="github.com/jake"
         />
       </div>
+      <div>
+        <label className="text-xs text-gray-500">Portfolio</label>
+        <input
+          value={section.portfolio}
+          onChange={(e) => update("portfolio", e.target.value)}
+          className="w-full rounded border border-gray-300 px-2 py-1 text-sm"
+          placeholder="jakebuilds.dev"
+        />
+      </div>
     </div>
   );
 }

@@ -1,5 +1,5 @@
 import type { HeaderSection } from "@/lib/types";
-import { Mail, Phone, Linkedin, Github } from "lucide-react";
+import { Mail, Phone, Linkedin, Github, Globe } from "lucide-react";
 
 interface Props {
   section: HeaderSection;
@@ -11,6 +11,7 @@ export default function HeaderPreview({ section }: Props) {
   if (section.mobile) items.push({ icon: <Phone size={10} />, text: section.mobile });
   if (section.linkedin) items.push({ icon: <Linkedin size={10} />, text: section.linkedin });
   if (section.github) items.push({ icon: <Github size={10} />, text: section.github });
+  if (section.portfolio) items.push({ icon: <Globe size={10} />, text: section.portfolio });
 
   return (
     <div className="text-center mb-2">
