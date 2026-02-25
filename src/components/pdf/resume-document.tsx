@@ -7,6 +7,8 @@ import PdfSkills from "./pdf-skills";
 import PdfExperience from "./pdf-experience";
 import PdfProjects from "./pdf-projects";
 import PdfCertificates from "./pdf-certificates";
+import PdfLanguages from "./pdf-languages";
+import PdfReferences from "./pdf-references";
 
 interface Props {
   resume: Resume;
@@ -26,6 +28,10 @@ function renderSection(section: Resume["sections"][number]) {
       return <PdfProjects key={section.id} section={section} />;
     case "certificates":
       return <PdfCertificates key={section.id} section={section} />;
+    case "languages":
+      return <PdfLanguages key={section.id} section={section} />;
+    case "references":
+      return <PdfReferences key={section.id} section={section} />;
   }
 }
 

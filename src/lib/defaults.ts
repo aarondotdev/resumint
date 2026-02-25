@@ -6,6 +6,8 @@ import type {
   ExperienceSection,
   ProjectsSection,
   CertificatesSection,
+  LanguagesSection,
+  ReferencesSection,
   Resume,
   SectionType,
   ResumeSection,
@@ -14,6 +16,8 @@ import type {
   ExperienceEntry,
   ProjectEntry,
   CertificateEntry,
+  LanguageEntry,
+  ReferenceEntry,
 } from "./types";
 
 export function createEducationEntry(): EducationEntry {
@@ -36,6 +40,14 @@ export function createCertificateEntry(): CertificateEntry {
   return { id: uuid(), name: "", url: "", date: "", bullets: [""] };
 }
 
+export function createLanguageEntry(): LanguageEntry {
+  return { id: uuid(), language: "", proficiency: "" };
+}
+
+export function createReferenceEntry(): ReferenceEntry {
+  return { id: uuid(), name: "", title: "", company: "", email: "", phone: "" };
+}
+
 export function createSection(type: SectionType): ResumeSection {
   const id = uuid();
   switch (type) {
@@ -51,6 +63,10 @@ export function createSection(type: SectionType): ResumeSection {
       return { type: "projects", id, title: "Projects", entries: [createProjectEntry()] } satisfies ProjectsSection;
     case "certificates":
       return { type: "certificates", id, title: "Certifications", entries: [createCertificateEntry()] } satisfies CertificatesSection;
+    case "languages":
+      return { type: "languages", id, title: "Languages", entries: [createLanguageEntry()] } satisfies LanguagesSection;
+    case "references":
+      return { type: "references", id, title: "References", entries: [createReferenceEntry()] } satisfies ReferencesSection;
   }
 }
 

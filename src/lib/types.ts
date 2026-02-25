@@ -88,13 +88,44 @@ export interface CertificatesSection {
   entries: CertificateEntry[];
 }
 
+export interface LanguageEntry {
+  id: string;
+  language: string;
+  proficiency: string;
+}
+
+export interface LanguagesSection {
+  type: "languages";
+  id: string;
+  title: string;
+  entries: LanguageEntry[];
+}
+
+export interface ReferenceEntry {
+  id: string;
+  name: string;
+  title: string;
+  company: string;
+  email: string;
+  phone: string;
+}
+
+export interface ReferencesSection {
+  type: "references";
+  id: string;
+  title: string;
+  entries: ReferenceEntry[];
+}
+
 export type ResumeSection =
   | HeaderSection
   | EducationSection
   | SkillsSection
   | ExperienceSection
   | ProjectsSection
-  | CertificatesSection;
+  | CertificatesSection
+  | LanguagesSection
+  | ReferencesSection;
 
 export type SectionType = ResumeSection["type"];
 

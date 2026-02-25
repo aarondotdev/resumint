@@ -1,6 +1,6 @@
 "use client";
 
-import { Suspense, useState, useCallback, useRef } from "react";
+import { Suspense, useState, useCallback, useRef, useEffect } from "react";
 import { useQueryState, parseAsInteger } from "nuqs";
 import { ResumeProvider } from "@/context/resume-context";
 import { DraftsProvider, useDrafts } from "@/context/drafts-context";
@@ -9,7 +9,7 @@ import { pickAndExtractPDF } from "@/lib/pdf-import";
 import Toolbar from "@/components/toolbar";
 import EditorPanel from "@/components/editor-panel";
 import PreviewPanel from "@/components/preview-panel";
-import { FilePlus2, FileUp, Loader2, Trash2 } from "lucide-react";
+import { FilePlus2, FileUp, Loader2, Trash2, PenLine, Eye } from "lucide-react";
 
 export default function Home() {
   return (
@@ -27,6 +27,16 @@ function HomeContent() {
   const { drafts, activeDraftId, createDraft, openDraft, deleteDraft, ready } =
     useDrafts();
   const [isParsing, setIsParsing] = useState(false);
+  const [mobileTab, setMobileTab] = useState<"editor" | "preview">("editor");
+  const [isLg, setIsLg] = useState(false);
+
+  useEffect(() => {
+    const mql = window.matchMedia("(min-width: 1024px)");
+    setIsLg(mql.matches);
+    const handler = (e: MediaQueryListEvent) => setIsLg(e.matches);
+    mql.addEventListener("change", handler);
+    return () => mql.removeEventListener("change", handler);
+  }, []);
 
   const [editorWidth, setEditorWidth] = useQueryState(
     "w",
@@ -189,16 +199,53 @@ function HomeContent() {
   return (
     <div className="flex flex-col h-screen">
       <Toolbar />
-      <div className="flex flex-1 overflow-hidden flex-col lg:flex-row">
-        <EditorPanel width={editorWidth} />
-        {/* Drag handle */}
-        <div
-          onMouseDown={handleMouseDown}
-          className="hidden lg:flex w-1.5 cursor-col-resize items-center justify-center bg-gray-200 hover:bg-blue-300 active:bg-blue-400 transition-colors"
+
+      {/* Mobile tab bar */}
+      <div className="flex lg:hidden border-b border-gray-200 bg-white">
+        <button
+          type="button"
+          onClick={() => setMobileTab("editor")}
+          className={`flex-1 flex items-center justify-center gap-1.5 py-2 text-sm font-medium transition-colors ${
+            mobileTab === "editor"
+              ? "text-blue-600 border-b-2 border-blue-600"
+              : "text-gray-500 hover:text-gray-700"
+          }`}
         >
-          <div className="w-0.5 h-8 rounded bg-gray-400" />
-        </div>
-        <PreviewPanel />
+          <PenLine size={14} /> Editor
+        </button>
+        <button
+          type="button"
+          onClick={() => setMobileTab("preview")}
+          className={`flex-1 flex items-center justify-center gap-1.5 py-2 text-sm font-medium transition-colors ${
+            mobileTab === "preview"
+              ? "text-blue-600 border-b-2 border-blue-600"
+              : "text-gray-500 hover:text-gray-700"
+          }`}
+        >
+          <Eye size={14} /> Preview
+        </button>
+      </div>
+
+      <div className="flex flex-1 overflow-hidden lg:flex-row">
+        {/* Editor - full width on mobile, constrained on desktop */}
+        {(isLg || mobileTab === "editor") && (
+          <EditorPanel width={isLg ? editorWidth : undefined} />
+        )}
+
+        {/* Drag handle - desktop only */}
+        {isLg && (
+          <div
+            onMouseDown={handleMouseDown}
+            className="flex w-1.5 cursor-col-resize items-center justify-center bg-gray-200 hover:bg-blue-300 active:bg-blue-400 transition-colors"
+          >
+            <div className="w-0.5 h-8 rounded bg-gray-400" />
+          </div>
+        )}
+
+        {/* Preview - hidden on mobile when editor tab active */}
+        {(isLg || mobileTab === "preview") && (
+          <PreviewPanel />
+        )}
       </div>
     </div>
   );

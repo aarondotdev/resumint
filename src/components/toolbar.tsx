@@ -30,6 +30,8 @@ const SECTION_TYPES: { type: SectionType; label: string }[] = [
   { type: "experience", label: "Experience" },
   { type: "projects", label: "Projects" },
   { type: "certificates", label: "Certificates" },
+  { type: "languages", label: "Languages" },
+  { type: "references", label: "References" },
 ];
 
 export default function Toolbar() {
@@ -147,9 +149,9 @@ export default function Toolbar() {
   }
 
   return (
-    <div className="flex items-center gap-2 px-4 py-2 border-b border-gray-200 bg-white">
-      <h1 className="text-sm font-bold text-gray-800">Resumint</h1>
-      <span className="text-gray-300 text-sm">/</span>
+    <div className="flex items-center gap-1.5 sm:gap-2 px-2 sm:px-4 py-2 border-b border-gray-200 bg-white flex-wrap">
+      <h1 className="text-sm font-bold text-gray-800 hidden sm:block">Resumint</h1>
+      <span className="text-gray-300 text-sm hidden sm:block">/</span>
 
       {/* Draft name + switcher */}
       <div className="relative mr-auto flex items-center gap-1" ref={draftMenuRef}>
@@ -265,9 +267,9 @@ export default function Toolbar() {
         <button
           type="button"
           onClick={() => setShowMenu(!showMenu)}
-          className="inline-flex items-center gap-1 rounded bg-blue-600 px-3 py-1.5 text-xs font-medium text-white hover:bg-blue-700"
+          className="inline-flex items-center gap-1 rounded bg-blue-600 px-2 sm:px-3 py-1.5 text-xs font-medium text-white hover:bg-blue-700"
         >
-          <Plus size={14} /> Add Section <ChevronDown size={12} />
+          <Plus size={14} /> <span className="hidden sm:inline">Add Section</span> <ChevronDown size={12} />
         </button>
         {showMenu && (
           <div className="absolute right-0 top-full mt-1 w-40 rounded border border-gray-200 bg-white shadow-lg z-50">
@@ -288,24 +290,26 @@ export default function Toolbar() {
       <button
         type="button"
         onClick={handleImport}
-        className="inline-flex items-center gap-1 rounded border border-gray-300 px-3 py-1.5 text-xs font-medium text-gray-700 hover:bg-gray-50"
+        title="Import JSON"
+        className="inline-flex items-center gap-1 rounded border border-gray-300 px-2 sm:px-3 py-1.5 text-xs font-medium text-gray-700 hover:bg-gray-50"
       >
-        <Upload size={14} /> Import
+        <Upload size={14} /> <span className="hidden md:inline">Import</span>
       </button>
 
       <button
         type="button"
         onClick={handleImportPDF}
         disabled={isParsing}
-        className="inline-flex items-center gap-1 rounded border border-gray-300 px-3 py-1.5 text-xs font-medium text-gray-700 hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed"
+        title="Upload Resume PDF"
+        className="inline-flex items-center gap-1 rounded border border-gray-300 px-2 sm:px-3 py-1.5 text-xs font-medium text-gray-700 hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed"
       >
         {isParsing ? (
           <>
-            <Loader2 size={14} className="animate-spin" /> Parsing...
+            <Loader2 size={14} className="animate-spin" /> <span className="hidden md:inline">Parsing...</span>
           </>
         ) : (
           <>
-            <FileUp size={14} /> Upload Resume
+            <FileUp size={14} /> <span className="hidden md:inline">Upload Resume</span>
           </>
         )}
       </button>
@@ -313,17 +317,19 @@ export default function Toolbar() {
       <button
         type="button"
         onClick={() => exportResumeJSON(resume)}
-        className="inline-flex items-center gap-1 rounded border border-gray-300 px-3 py-1.5 text-xs font-medium text-gray-700 hover:bg-gray-50"
+        title="Export JSON"
+        className="inline-flex items-center gap-1 rounded border border-gray-300 px-2 sm:px-3 py-1.5 text-xs font-medium text-gray-700 hover:bg-gray-50"
       >
-        <Download size={14} /> Export
+        <Download size={14} /> <span className="hidden md:inline">Export</span>
       </button>
 
       <button
         type="button"
         onClick={handlePDF}
-        className="inline-flex items-center gap-1 rounded bg-green-600 px-3 py-1.5 text-xs font-medium text-white hover:bg-green-700"
+        title="Download PDF"
+        className="inline-flex items-center gap-1 rounded bg-green-600 px-2 sm:px-3 py-1.5 text-xs font-medium text-white hover:bg-green-700"
       >
-        <FileText size={14} /> PDF
+        <FileText size={14} /> <span className="hidden md:inline">PDF</span>
       </button>
     </div>
   );

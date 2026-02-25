@@ -48,7 +48,7 @@ function SortableSection({ section }: { section: ResumeSection }) {
   );
 }
 
-export default function EditorPanel({ width }: { width: number }) {
+export default function EditorPanel({ width }: { width?: number }) {
   const { resume, dispatch } = useResume();
 
   const sensors = useSensors(
@@ -72,7 +72,7 @@ export default function EditorPanel({ width }: { width: number }) {
   }
 
   return (
-    <div className="w-full overflow-auto border-r border-gray-200 bg-gray-50 p-4 space-y-3 shrink-0" style={{ maxWidth: width }}>
+    <div className="w-full overflow-auto border-r border-gray-200 bg-gray-50 p-3 sm:p-4 space-y-3 shrink-0" style={width ? { maxWidth: width } : undefined}>
       <DndContext sensors={sensors} collisionDetection={closestCenter} onDragEnd={handleDragEnd}>
         <SortableContext items={resume.sections.map((s) => s.id)} strategy={verticalListSortingStrategy}>
           {resume.sections.map((section) => (

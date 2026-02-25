@@ -8,6 +8,8 @@ import SkillsEditor from "./editors/skills-editor";
 import ExperienceEditor from "./editors/experience-editor";
 import ProjectsEditor from "./editors/projects-editor";
 import CertificatesEditor from "./editors/certificates-editor";
+import LanguagesEditor from "./editors/languages-editor";
+import ReferencesEditor from "./editors/references-editor";
 
 interface Props {
   section: ResumeSection;
@@ -33,5 +35,9 @@ export default function SectionEditor({ section }: Props) {
       return <ProjectsEditor section={section} onChange={handleChange} />;
     case "certificates":
       return <CertificatesEditor section={section} onChange={handleChange} />;
+    case "languages":
+      return <LanguagesEditor section={section} onChange={handleChange} />;
+    case "references":
+      return <ReferencesEditor section={section} onChange={handleChange} />;
   }
 }
