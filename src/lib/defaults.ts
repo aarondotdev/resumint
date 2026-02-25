@@ -52,7 +52,7 @@ export function createSection(type: SectionType): ResumeSection {
   const id = uuid();
   switch (type) {
     case "header":
-      return { type: "header", id, title: "Header", name: "", email: "", mobile: "", linkedin: "", github: "", portfolio: "" } satisfies HeaderSection;
+      return { type: "header", id, title: "Header", name: "", jobTitle: "", email: "", mobile: "", linkedin: "", github: "", portfolio: "" } satisfies HeaderSection;
     case "education":
       return { type: "education", id, title: "Education", entries: [createEducationEntry()] } satisfies EducationSection;
     case "skills":
@@ -84,6 +84,7 @@ export function createDefaultResume(): Resume {
         id: uuid(),
         title: "Header",
         name: "Jake Ryan",
+        jobTitle: "",
         email: "jake@su.edu",
         mobile: "123-456-7890",
         linkedin: "linkedin.com/in/jake",

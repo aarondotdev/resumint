@@ -3,6 +3,7 @@ export interface HeaderSection {
   id: string;
   title: string;
   name: string;
+  jobTitle: string;
   email: string;
   mobile: string;
   linkedin: string;

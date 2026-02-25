@@ -21,6 +21,15 @@ export default function HeaderEditor({ section, onChange }: Props) {
           placeholder="Jake Ryan"
         />
       </div>
+      <div className="col-span-2">
+        <label className="text-xs text-gray-500">Job Title (optional)</label>
+        <input
+          value={section.jobTitle}
+          onChange={(e) => update("jobTitle", e.target.value)}
+          className="w-full rounded border border-gray-300 px-2 py-1 text-sm"
+          placeholder="Software Engineer"
+        />
+      </div>
       <div>
         <label className="text-xs text-gray-500">Email</label>
         <input

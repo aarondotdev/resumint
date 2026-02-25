@@ -10,6 +10,7 @@ interface HeaderSection {
   id: string;
   title: string;       // always ""
   name: string;
+  jobTitle: string;   // job title or professional headline, if present
   email: string;
   mobile: string;
   linkedin: string;

@@ -17,16 +17,14 @@ export default function PdfReferences({ section }: Props) {
             <Text style={styles.entryBold}>{entry.name}</Text>
             {entry.phone ? <Text style={styles.entryDate}>{entry.phone}</Text> : null}
           </View>
-          <View style={{ flexDirection: "row" }}>
+          <View style={styles.entryRow}>
             <Text style={styles.skillItems}>
               {entry.title}
               {entry.title && entry.company ? ", " : ""}
               {entry.company}
             </Text>
+            {entry.email ? <Text style={styles.entryLink}>{entry.email}</Text> : null}
           </View>
-          {entry.email ? (
-            <Text style={styles.entryLink}>{entry.email}</Text>
-          ) : null}
         </View>
       ))}
     </View>

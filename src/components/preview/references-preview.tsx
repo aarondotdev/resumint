@@ -17,14 +17,16 @@ export default function ReferencesPreview({ section }: Props) {
               <span className="text-xs text-gray-600">{entry.phone}</span>
             )}
           </div>
-          <div className="text-xs text-gray-700">
-            {entry.title}
-            {entry.title && entry.company && ", "}
-            {entry.company && <span className="italic">{entry.company}</span>}
+          <div className="flex justify-between items-baseline">
+            <span className="text-xs text-gray-700">
+              {entry.title}
+              {entry.title && entry.company && ", "}
+              {entry.company && <span className="italic">{entry.company}</span>}
+            </span>
+            {entry.email && (
+              <span className="text-xs text-teal-600">{entry.email}</span>
+            )}
           </div>
-          {entry.email && (
-            <div className="text-xs text-teal-600">{entry.email}</div>
-          )}
         </div>
       ))}
     </div>

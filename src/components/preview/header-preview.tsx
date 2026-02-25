@@ -16,6 +16,9 @@ export default function HeaderPreview({ section }: Props) {
   return (
     <div className="text-center mb-2">
       <h1 className="text-2xl font-bold text-gray-900">{section.name || "Your Name"}</h1>
+      {section.jobTitle && (
+        <p className="text-sm text-gray-600 mt-0.5">{section.jobTitle}</p>
+      )}
       {items.length > 0 && (
         <div className="flex items-center justify-center gap-3 mt-1 flex-wrap">
           {items.map((item, i) => (

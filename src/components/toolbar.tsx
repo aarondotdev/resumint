@@ -137,7 +137,13 @@ export default function Toolbar() {
     const url = URL.createObjectURL(blob);
     const a = document.createElement("a");
     a.href = url;
-    a.download = "resume.pdf";
+    const header = resume.sections.find((s) => s.type === "header");
+    const fullName = (header && "name" in header && header.name ? header.name : "resume").replace(/\s+/g, "_");
+    const now = new Date();
+    const mm = String(now.getMonth() + 1).padStart(2, "0");
+    const dd = String(now.getDate()).padStart(2, "0");
+    const yyyy = now.getFullYear();
+    a.download = `${fullName}_resume_${mm}-${dd}-${yyyy}.pdf`;
     a.click();
     URL.revokeObjectURL(url);
   }

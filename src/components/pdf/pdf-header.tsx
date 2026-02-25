@@ -17,6 +17,9 @@ export default function PdfHeader({ section }: Props) {
   return (
     <View style={styles.mb4}>
       <Text style={{ ...styles.headerName, textAlign: "center" }}>{section.name || "Your Name"}</Text>
+      {section.jobTitle ? (
+        <Text style={{ fontSize: 10, textAlign: "center", color: colors.muted }}>{section.jobTitle}</Text>
+      ) : null}
       {items.length > 0 && (
         <Text style={{ fontSize: 9, textAlign: "center", color: colors.muted }}>
           {items.join("  |  ")}
