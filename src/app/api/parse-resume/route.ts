@@ -96,6 +96,35 @@ interface CertificatesSection {
   entries: CertificateEntry[];
 }
 
+interface LanguageEntry {
+  id: string;
+  language: string;     // e.g. "English", "Arabic", "Spanish"
+  proficiency: string;  // e.g. "Native", "Fluent", "Intermediate", "Basic"
+}
+
+interface LanguagesSection {
+  type: "languages";
+  id: string;
+  title: string;       // e.g. "Languages"
+  entries: LanguageEntry[];
+}
+
+interface ReferenceEntry {
+  id: string;
+  name: string;        // referee's full name
+  title: string;       // referee's job title
+  company: string;     // referee's company/organization
+  email: string;       // referee's email
+  phone: string;       // referee's phone number
+}
+
+interface ReferencesSection {
+  type: "references";
+  id: string;
+  title: string;       // e.g. "References"
+  entries: ReferenceEntry[];
+}
+
 interface Resume {
   sections: ResumeSection[];   // array of the above section types
 }
