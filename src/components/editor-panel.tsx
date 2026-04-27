@@ -13,38 +13,33 @@ import {
 import {
   SortableContext,
   sortableKeyboardCoordinates,
-  useSortable,
   verticalListSortingStrategy,
 } from "@dnd-kit/sortable";
-import { CSS } from "@dnd-kit/utilities";
 import type { ResumeSection } from "@/lib/types";
 import CollapsibleCard from "./ui/collapsible-card";
+import SortableRow from "./ui/sortable-row";
 import SectionEditor from "./section-editor";
 
 function SortableSection({ section }: { section: ResumeSection }) {
   const { dispatch } = useResume();
-  const { attributes, listeners, setNodeRef, transform, transition } = useSortable({ id: section.id });
-
-  const style = {
-    transform: CSS.Transform.toString(transform),
-    transition,
-  };
 
   function handleTitleChange(title: string) {
     dispatch({ type: "UPDATE_SECTION", payload: { ...section, title } });
   }
 
   return (
-    <div ref={setNodeRef} style={style} {...attributes} suppressHydrationWarning>
-      <CollapsibleCard
-        title={section.title}
-        onTitleChange={handleTitleChange}
-        onRemove={() => dispatch({ type: "REMOVE_SECTION", payload: section.id })}
-        dragHandleProps={listeners}
-      >
-        <SectionEditor section={section} />
-      </CollapsibleCard>
-    </div>
+    <SortableRow id={section.id}>
+      {({ handleProps }) => (
+        <CollapsibleCard
+          title={section.title}
+          onTitleChange={handleTitleChange}
+          onRemove={() => dispatch({ type: "REMOVE_SECTION", payload: section.id })}
+          dragHandleProps={handleProps}
+        >
+          <SectionEditor section={section} />
+        </CollapsibleCard>
+      )}
+    </SortableRow>
   );
 }
 

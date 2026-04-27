@@ -1,6 +1,24 @@
+"use client";
+
 import type { ReferencesSection, ReferenceEntry } from "@/lib/types";
 import { createReferenceEntry } from "@/lib/defaults";
+import { useResume } from "@/context/resume-context";
+import {
+  DndContext,
+  closestCenter,
+  KeyboardSensor,
+  PointerSensor,
+  useSensor,
+  useSensors,
+  type DragEndEvent,
+} from "@dnd-kit/core";
+import {
+  SortableContext,
+  sortableKeyboardCoordinates,
+  verticalListSortingStrategy,
+} from "@dnd-kit/sortable";
 import EntryControls from "./entry-controls";
+import SortableRow from "../ui/sortable-row";
 
 interface Props {
   section: ReferencesSection;
@@ -8,6 +26,12 @@ interface Props {
 }
 
 export default function ReferencesEditor({ section, onChange }: Props) {
+  const { dispatch } = useResume();
+  const sensors = useSensors(
+    useSensor(PointerSensor),
+    useSensor(KeyboardSensor, { coordinateGetter: sortableKeyboardCoordinates })
+  );
+
   function updateEntry(idx: number, patch: Partial<ReferenceEntry>) {
     const entries = section.entries.map((e, i) => (i === idx ? { ...e, ...patch } : e));
     onChange({ ...section, entries });
@@ -21,59 +45,85 @@ export default function ReferencesEditor({ section, onChange }: Props) {
     onChange({ ...section, entries: section.entries.filter((_, i) => i !== idx) });
   }
 
+  function handleDragEnd(event: DragEndEvent) {
+    const { active, over } = event;
+    if (!over || active.id === over.id) return;
+    const ids = section.entries.map((e) => e.id);
+    const oldIndex = ids.indexOf(active.id as string);
+    const newIndex = ids.indexOf(over.id as string);
+    if (oldIndex === -1 || newIndex === -1) return;
+    const orderedIds = [...ids];
+    orderedIds.splice(oldIndex, 1);
+    orderedIds.splice(newIndex, 0, active.id as string);
+    dispatch({ type: "REORDER_ENTRIES", payload: { sectionId: section.id, orderedIds } });
+  }
+
+  const hideHandle = section.entries.length < 2;
+
   return (
-    <div className="space-y-4">
-      {section.entries.map((entry, idx) => (
-        <div key={entry.id} className="space-y-2 border-l-2 border-blue-200 pl-3">
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
-            <div>
-              <label className="text-xs text-gray-500">Full Name</label>
-              <input
-                value={entry.name}
-                onChange={(e) => updateEntry(idx, { name: e.target.value })}
-                className="w-full rounded border border-gray-300 px-2 py-1 text-sm"
-              />
-            </div>
-            <div>
-              <label className="text-xs text-gray-500">Job Title</label>
-              <input
-                value={entry.title}
-                onChange={(e) => updateEntry(idx, { title: e.target.value })}
-                className="w-full rounded border border-gray-300 px-2 py-1 text-sm"
-              />
-            </div>
-            <div>
-              <label className="text-xs text-gray-500">Company</label>
-              <input
-                value={entry.company}
-                onChange={(e) => updateEntry(idx, { company: e.target.value })}
-                className="w-full rounded border border-gray-300 px-2 py-1 text-sm"
-              />
-            </div>
-            <div>
-              <label className="text-xs text-gray-500">Email</label>
-              <input
-                value={entry.email}
-                onChange={(e) => updateEntry(idx, { email: e.target.value })}
-                className="w-full rounded border border-gray-300 px-2 py-1 text-sm"
-              />
-            </div>
-            <div>
-              <label className="text-xs text-gray-500">Phone</label>
-              <input
-                value={entry.phone}
-                onChange={(e) => updateEntry(idx, { phone: e.target.value })}
-                className="w-full rounded border border-gray-300 px-2 py-1 text-sm"
-              />
-            </div>
-          </div>
-          <EntryControls
-            onAdd={addEntry}
-            onRemove={section.entries.length > 1 ? () => removeEntry(idx) : undefined}
-            addLabel="Add reference"
-          />
+    <DndContext sensors={sensors} collisionDetection={closestCenter} onDragEnd={handleDragEnd}>
+      <SortableContext items={section.entries.map((e) => e.id)} strategy={verticalListSortingStrategy}>
+        <div className="space-y-4">
+          {section.entries.map((entry, idx) => (
+            <SortableRow
+              key={entry.id}
+              id={entry.id}
+              hideHandle={hideHandle}
+              className="border-l-2 border-blue-200 pl-3"
+            >
+              <div className="space-y-2">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                  <div>
+                    <label className="text-xs text-gray-500">Full Name</label>
+                    <input
+                      value={entry.name}
+                      onChange={(e) => updateEntry(idx, { name: e.target.value })}
+                      className="w-full rounded border border-gray-300 px-2 py-1 text-sm"
+                    />
+                  </div>
+                  <div>
+                    <label className="text-xs text-gray-500">Job Title</label>
+                    <input
+                      value={entry.title}
+                      onChange={(e) => updateEntry(idx, { title: e.target.value })}
+                      className="w-full rounded border border-gray-300 px-2 py-1 text-sm"
+                    />
+                  </div>
+                  <div>
+                    <label className="text-xs text-gray-500">Company</label>
+                    <input
+                      value={entry.company}
+                      onChange={(e) => updateEntry(idx, { company: e.target.value })}
+                      className="w-full rounded border border-gray-300 px-2 py-1 text-sm"
+                    />
+                  </div>
+                  <div>
+                    <label className="text-xs text-gray-500">Email</label>
+                    <input
+                      value={entry.email}
+                      onChange={(e) => updateEntry(idx, { email: e.target.value })}
+                      className="w-full rounded border border-gray-300 px-2 py-1 text-sm"
+                    />
+                  </div>
+                  <div>
+                    <label className="text-xs text-gray-500">Phone</label>
+                    <input
+                      value={entry.phone}
+                      onChange={(e) => updateEntry(idx, { phone: e.target.value })}
+                      className="w-full rounded border border-gray-300 px-2 py-1 text-sm"
+                    />
+                  </div>
+                </div>
+                <EntryControls
+                  onAdd={addEntry}
+                  onRemove={section.entries.length > 1 ? () => removeEntry(idx) : undefined}
+                  addLabel="Add reference"
+                />
+              </div>
+            </SortableRow>
+          ))}
         </div>
-      ))}
-    </div>
+      </SortableContext>
+    </DndContext>
   );
 }
